@@ -19,7 +19,7 @@
     <Grid Margin="3">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -74,10 +74,6 @@
                 <Button Grid.Column="1" Grid.Row="4" Content="Rec'v drone.key" Width="160" Command="{Binding RecvDroneKeyCommand}"  IsEnabled="{Binding CanConnect}" 
                         ToolTip.Tip="{x:Static assets:Resources.RecvDroneKeyToolTip}"/>
                 
-                
-                <Label Grid.Row="5" Content="" /><!-- placeholders -->
-                <Label Grid.Row="6" Content="" />
-                <Label Grid.Row="7" Content="" />
             </Grid>
             <!-- </Border> -->
                 
@@ -117,13 +113,13 @@
                 <Label Grid.Column="0" Grid.Row="2" Content="Select Driver:" />
                 <TextBox Grid.Column="1" Grid.Row="2" IsEnabled="False">sensor_imx415_mipi.ko</TextBox>
                 
-                <!-- IsEnabled="{Binding CanConnect}" -->
                 <Button Grid.Column="2" Grid.Row="2" Content="Sensor Driver Update"  Width="160" Command="{Binding SensorDriverUpdateCommand}" 
-                        IsEnabled="False"
+                        IsEnabled="{Binding CanConnect}"
                         ToolTip.Tip="{x:Static assets:Resources.SensorDriverUpdateToolTip}"/>
 
                 
-                <Button Grid.Column="2" Grid.Row="1" Content="Sensor Bin Update" Width="150" Command="{Binding SensorFilesUpdateCommand}" IsEnabled="{Binding CanConnect}"
+                <Button Grid.Column="2" Grid.Row="1" Content="Sensor Bin Update" Width="150" Command="{Binding SensorFilesUpdateCommand}" 
+                        IsEnabled="{Binding CanConnect}"
                         ToolTip.Tip="{x:Static assets:Resources.SensorBinUpdateToolTip}"/>
 
                 
@@ -139,7 +135,7 @@
                              IsVisible="{Binding IsProgressBarVisible}" />
                 
                 <TextBlock Grid.Column="2" Grid.Row="4" Background="LightGray" Text="{Binding ProgressText}"
-                           FontFamily="Consolas" FontSize="16" Grid.ColumnSpan="4" LineHeight="28"/>
+                           FontSize="16" Grid.ColumnSpan="4" LineHeight="28"/>
                 <!-- <TextBlock Grid.Column="2" Grid.Row="4" Background="Aquamarine" Text="Hello"  -->
                 <!--            FontFamily="Consolas" FontSize="16" Grid.ColumnSpan="2" LineHeight="28"/> -->
                 <!-- placeholders -->
@@ -151,7 +147,7 @@
         </StackPanel>
 
         <!-- Right Column: IP Address and additional options -->
-        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" Spacing="10" Margin="10,0,0,0">
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" Spacing="10" Margin="10,0,0,0">
             
             <TextBlock Text="{Binding ScanIPDescription}" />
 
@@ -166,8 +162,9 @@
             </StackPanel>
             
             <ScrollViewer VerticalScrollBarVisibility="Auto" Background="LightSlateGray">
-                <TextBox AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="125" 
-                         Background="Beige" Text="{Binding ScanIPResultTextBox}" />
+                <TextBox AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                         Height="125" 
+                         Text="{Binding ScanIPResultTextBox}" />
             </ScrollViewer>
             
 
@@ -178,7 +175,7 @@
 
         </StackPanel>
         <!-- Steps Text -->
-        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Vertical" >
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" >
             <TextBlock Text="{x:Static assets:Resources.StepsTextBox}" Margin="0,5,0,0" FontSize="12"/>
             
         </StackPanel>

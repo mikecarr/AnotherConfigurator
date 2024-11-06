@@ -267,6 +267,12 @@ public class ConnectControlsViewModel : ObservableObject
         // Publish a message to WfbSettingsTabViewModel
         _eventAggregator?.GetEvent<TelemetryContentUpdatedEvent>()
             .Publish(new TelemetryContentUpdatedMessage(telemetryContent));
+        
+        _eventAggregator?.GetEvent<AppMessageEvent>().Publish(new AppMessage()
+        {
+            CanConnect = DeviceConfig.Instance.CanConnect,
+            DeviceConfig = _deviceConfig        
+        });
     }
 
     /// <summary>

@@ -24,6 +24,7 @@ public static class SettingsManager
     public static DeviceConfig? LoadSettings(IEventAggregator eventAggregator)
     {
         DeviceConfig deviceConfig;
+        
         if (File.Exists(AppSettingFilename))
         {
             var json = File.ReadAllText(AppSettingFilename);

@@ -52,11 +52,12 @@ public class AppMessage
     }
     
     
+    public bool CanConnect { get; set; }
+
     public override string ToString()
     {
-        return
-            $"{nameof(Message)}: {Message}, {nameof(Status)}: {Status}, " +
-            $"{nameof(DeviceConfig)}: {DeviceConfig}";
+        return $"{nameof(Message)}: {Message}, {nameof(Status)}: {Status}, " +
+               $"{nameof(DeviceConfig)}: {DeviceConfig}, {nameof(CanConnect)}: {CanConnect}";
     }
 }
 

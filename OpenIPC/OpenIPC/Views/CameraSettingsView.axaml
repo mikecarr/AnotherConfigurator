@@ -80,7 +80,8 @@
         </Grid>
         <!-- Restart Majestic Button -->
         <Button Content="Restart Majestic" HorizontalAlignment="Left" Margin="10" 
-                Command="{Binding RestartMajesticCommand}" IsEnabled="{Binding CanConnect}"
+                Command="{Binding RestartMajesticCommand}" 
+                IsEnabled="{Binding CanConnect}"
                 ToolTip.Tip="{x:Static assets:Resources.RestartMajesticToolTip}"/>
 
         <!-- Warning Label -->

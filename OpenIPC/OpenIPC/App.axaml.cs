@@ -15,6 +15,7 @@ using Prism.Events;
 using Serilog;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using Prism.Ioc;
 
 namespace OpenIPC;
 
@@ -27,9 +28,11 @@ public partial class App : Application
         AvaloniaXamlLoader.Load(this);
 
         EventAggregator = new EventAggregator();
+        
 
         
     }
+    
 
     void CreateAppSettings()
     {

@@ -210,6 +210,17 @@ public class WfbTabViewModel : ReactiveObject
         }
     }
     
+    private bool _canConnect;
+    public bool CanConnect
+    {
+        get => _canConnect;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _canConnect, value);
+            Log.Debug($"CanConnect {value}");
+        }
+    }
+    
     public WfbTabViewModel()
     {
         InitializeCollections();
@@ -221,6 +232,7 @@ public class WfbTabViewModel : ReactiveObject
         
         _eventAggregator.GetEvent<TabMessageEvent>().Subscribe(MessageReceived);
         _eventAggregator.GetEvent<WfbConfContentUpdatedEvent>().Subscribe(WfbConfContentUpdated);
+        _eventAggregator.GetEvent<AppMessageEvent>().Subscribe(OnAppMessage);
     }
 
     
@@ -307,7 +319,7 @@ public class WfbTabViewModel : ReactiveObject
         FecK = new ObservableCollection<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
         FecN = new ObservableCollection<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 
-        //CanConnect = false;
+
     }
     
     // Method to parse the wfbConfContent
@@ -458,6 +470,16 @@ public class WfbTabViewModel : ReactiveObject
                 Log.Debug($"WFB - Key: {key}, Value: {value}");
             }
         }
+    }
+    
+    private void OnAppMessage(AppMessage appMessage)
+    {
+        if (appMessage.CanConnect)
+        {
+            CanConnect = appMessage.CanConnect;
+            Log.Information($"CanConnect {CanConnect.ToString()}");
+        }
+
     }
     
     private string UpdateWfbConfContent(

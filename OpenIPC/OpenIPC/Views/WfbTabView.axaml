@@ -74,7 +74,8 @@
                   SelectedItem="{Binding SelectedFecN, Mode=TwoWay}"/>
         
         <Button HorizontalAlignment="Left" Grid.Row="10" Content="Restart WFB"
-                Command="{Binding RestartWfbCommand}" 
+                Command="{Binding RestartWfbCommand}"
+                IsEnabled="{Binding CanConnect}"
         />
     </Grid>
     

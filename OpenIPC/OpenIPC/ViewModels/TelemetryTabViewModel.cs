@@ -11,6 +11,7 @@ using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using OpenIPC.Models;
 using OpenIPC;
+using OpenIPC.Events;
 using OpenIPC.Messages;
 using OpenIPC.Models;
 using OpenIPC.Services;
@@ -63,6 +64,7 @@ public class TelemetryTabViewModel : ViewModelBase
         _eventAggregator = App.EventAggregator;
         
         _eventAggregator?.GetEvent<TelemetryContentUpdatedEvent>().Subscribe(OnTelemetryContentUpdated);
+        _eventAggregator.GetEvent<AppMessageEvent>().Subscribe(OnAppMessage);
         
         
         
@@ -75,6 +77,16 @@ public class TelemetryTabViewModel : ViewModelBase
         UploadMSPOSDCommand = new RelayCommand(() => UploadMSPOSD());
         UploadINavCommand = new RelayCommand(() => UploadINav());
         SaveAndRestartTelemetryCommand = new RelayCommand(() => SaveAndRestartTelemetry());
+    }
+    
+    private void OnAppMessage(AppMessage appMessage)
+    {
+        if (appMessage.CanConnect)
+        {
+            CanConnect = appMessage.CanConnect;
+            Log.Information($"CanConnect {CanConnect.ToString()}");
+        }
+
     }
     
     private void InitializeCollections()

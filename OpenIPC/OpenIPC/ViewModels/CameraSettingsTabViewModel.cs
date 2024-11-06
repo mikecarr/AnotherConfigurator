@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using DynamicData;
+using OpenIPC.Events;
 using OpenIPC.Messages;
 using OpenIPC.Models;
 using OpenIPC.Services;
@@ -199,12 +200,22 @@ public class CameraSettingsTabViewModel : ViewModelBase
         
         _eventAggregator = App.EventAggregator;
         _eventAggregator?.GetEvent<MajesticContentUpdatedEvent>().Subscribe(OnMajesticContentUpdated);
-        // _eventAggregator?.GetEvent<DeviceStateUpdatedEvent>().Subscribe(OnDeviceStateUpdated);
+        _eventAggregator.GetEvent<AppMessageEvent>().Subscribe(OnAppMessage);
         
         
         RestartMajesticCommand = new RelayCommand(() => RestartMajestic());
         
         _sshClientService = new SshClientService(_eventAggregator);
+    }
+
+    private void OnAppMessage(AppMessage appMessage)
+    {
+        if (appMessage.CanConnect)
+        {
+            CanConnect = appMessage.CanConnect;
+            Log.Information($"CanConnect {CanConnect.ToString()}");
+        }
+
     }
 
     // private void OnDeviceStateUpdated(DeviceStateUpdatedMessage message)

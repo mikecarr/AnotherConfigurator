@@ -20,6 +20,7 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.Input;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
+using OpenIPC.Events;
 using OpenIPC.Messages;
 using OpenIPC.Models;
 using OpenIPC.Services;
@@ -124,7 +125,8 @@ namespace OpenIPC.ViewModels
             _offlineUpdateCommand ?? (_offlineUpdateCommand = new RelayCommand(OfflineUpdate));
 
         public ICommand ScanCommand => _scanCommand ?? (_scanCommand = new RelayCommand(ScanNetwork));
-
+        
+        
         private string _scapIpDescription;
 
         public string ScanIPDescription
@@ -205,11 +207,22 @@ namespace OpenIPC.ViewModels
             ShowProgressBarCommand = new RelayCommand(() => IsProgressBarVisible = true);
 
             _eventAggregator = App.EventAggregator;
+            _eventAggregator.GetEvent<AppMessageEvent>().Subscribe(OnAppMessage);
             //_eventAggregator?.GetEvent<DeviceStateUpdatedEvent>().Subscribe(OnDeviceStateUpdated);
 
             
             
             _sshClientService = new SshClientService(_eventAggregator);
+        }
+
+        private void OnAppMessage(AppMessage appMessage)
+        {
+            if (appMessage.CanConnect)
+            {
+                CanConnect = appMessage.CanConnect;
+                Log.Information($"CanConnect {CanConnect.ToString()}");
+            }
+
         }
 
 
