@@ -8,7 +8,7 @@
         MaxWidth="920"
         MaxHeight="750"
         x:Class="OpenIPC.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/Icons/OpenIPC.ico"
         Title="OpenIPC">
                 
                             

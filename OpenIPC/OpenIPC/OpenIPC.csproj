@@ -4,11 +4,26 @@
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <ApplicationIcon>Assets/Icons/OpenIPC.ico</ApplicationIcon>
+        
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(RuntimeIdentifier)' == 'osx-x64' Or '$(RuntimeIdentifier)' == 'osx-arm64'">
+        <MacOSBundleIcon>Assets/Icons/OpenIPC.icns</MacOSBundleIcon>
+        <UseAppHost>true</UseAppHost>
     </PropertyGroup>
 
     <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
         <None Update="binaries\**\*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <!-- Windows -->
+        <None Update="Assets/Icons/OpenIPC.ico">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <!-- Mac OSX -->
+        <None Update="Assets/Icons/OpenIPC.icns">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
@@ -51,9 +66,7 @@
             <Generator>PublicResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-    </ItemGroup>
 
-    <ItemGroup>
         <Compile Update="Resources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
