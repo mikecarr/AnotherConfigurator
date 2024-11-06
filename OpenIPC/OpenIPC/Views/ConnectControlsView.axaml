@@ -3,36 +3,106 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:OpenIPC.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:models="clr-namespace:OpenIPC.Models"
+             xmlns:services="clr-namespace:OpenIPC.Services"
+
              x:Class="OpenIPC.Views.ConnectControlsView"
              x:DataType="vm:ConnectControlsViewModel">
-    
+
+
+    <UserControl.Resources>
+        <services:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+    </UserControl.Resources>
+
     
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <!-- <RowDefinition Height="Auto"/> -->
+            <!-- <RowDefinition Height="Auto"/> -->
         </Grid.RowDefinitions>
+
+
+        <!-- <Grid Grid.Row="0" Grid.Column="0" Margin="10"> -->
+        <!--     <Grid.RowDefinitions> -->
+        <!--         <RowDefinition Height="Auto" /> -->
+        <!--         <RowDefinition Height="Auto" /> -->
+        <!--         <RowDefinition Height="Auto" /> -->
+        <!--         <RowDefinition Height="Auto" /> -->
+        <!--     </Grid.RowDefinitions> -->
+        <!--     <Grid.ColumnDefinitions> -->
+        <!--         <ColumnDefinition Width="Auto" /> -->
+        <!--         <ColumnDefinition Width="Auto" /> -->
+        <!--         <ColumnDefinition Width="Auto" /> -->
+        <!--         <ColumnDefinition Width="Auto" /> -->
+        <!--         <ColumnDefinition Width="Auto" /> -->
+        <!--     </Grid.ColumnDefinitions> -->
+        <!--     <Label Grid.Column="0" Grid.Row="0" Content="IP Address" /> -->
+        <!--     <TextBox Grid.Column="1" Grid.Row="0" Width="150"  Text="{Binding IpAddress}" /> -->
+        <!--     <Label Grid.Column="2" Grid.Row="0" Content="Password" /> -->
+        <!--     <TextBox Grid.Column="3" Grid.Row="0" Width="150" PasswordChar="*" Text="{Binding Password}" /> -->
+        <!-- </Grid> -->
         
-        <Label Grid.Column="0" Grid.Row="0" Content="IP Address" />
-        <TextBox Grid.Column="1" Grid.Row="0" Width="150" Text="{Binding IpAddress}"/>
-        <Label Grid.Column="2" Grid.Row="0" Content="Password" />
-        <TextBox Grid.Column="3" Grid.Row="0" Width="150"  PasswordChar="*" Text="{Binding Password}"/>
+        <StackPanel x:Name="LayoutRoot" Margin="10" Orientation="Vertical">
+            <StackPanel Orientation="Vertical">
+                <Label Content="IP Address" />
+                <TextBox Width="150" Height="30"  Text="{Binding IpAddress}" />
+            </StackPanel>
+            <StackPanel  Orientation="Vertical">
+                <Label Content="Password" />
+                <TextBox Width="150" Height="30" PasswordChar="*" Text="{Binding Password}" />
+            </StackPanel>
+        </StackPanel>
+            
+
         
-        <Panel Grid.Column="0" Grid.Row="1" 
-               Background="{Binding PingStatusColor}"
-               Height="30" Width="30"/>
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Panel Grid.Column="0" Grid.Row="1"
+                   Background="{Binding PingStatusColor}"
+                   Height="30" Width="50"/>
+            <Button Grid.Column="1" Grid.Row="1" Content="Connect"
+                    IsEnabled="{Binding CanConnect }"
+                    Command="{Binding ConnectCommand}" />
+
+            <!-- <Panel Grid.Row="3" Grid.Column="0" Width="50" Background="Blue" /> -->
+        </Grid>
         
-        <Button Grid.Column="1" Grid.Row="1" Content="Connect"
-                IsEnabled="{Binding CanConnect }"
-                Command="{Binding ConnectCommand}" />
+        
+        
+        <Grid Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <RadioButton Grid.Column="5" Grid.Row="0" Content="None"
+                         IsChecked="{Binding SelectedDeviceType, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static models:DeviceType.None}}" />
+            <RadioButton Grid.Column="5" Grid.Row="1" Content="Camera"
+                         IsChecked="{Binding SelectedDeviceType, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static models:DeviceType.Camera}}" />
+            <RadioButton Grid.Column="5" Grid.Row="2" Content="Radxa"
+                         IsChecked="{Binding SelectedDeviceType, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static models:DeviceType.Radxa}}" />
+            <RadioButton Grid.Column="5" Grid.Row="3" Content="NVR"
+                         IsChecked="{Binding SelectedDeviceType, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static models:DeviceType.NVR}}" />
+        </Grid>
+            
+
     </Grid>
+        
 </UserControl>

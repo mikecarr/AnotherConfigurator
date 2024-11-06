@@ -5,12 +5,12 @@ using Prism.Events;
 using Serilog;
 
 
-namespace OpenIPC_Config.Services;
+namespace OpenIPC.Services;
 
 public static class SettingsManager
 {
     private static string AppSettingsName = "openipc_settings.json";
-    private static string AppSettingFilename = $"{OpenIPC.Models.OpenIPC.LocalAppDataFolder}/{AppSettingsName}";
+    private static string AppSettingFilename = $"{Models.OpenIPC.AppDataConfigDirectory}/{AppSettingsName}";
     
     
 /// <summary>
@@ -24,6 +24,7 @@ public static class SettingsManager
     public static DeviceConfig? LoadSettings(IEventAggregator eventAggregator)
     {
         DeviceConfig deviceConfig;
+        
         if (File.Exists(AppSettingFilename))
         {
             var json = File.ReadAllText(AppSettingFilename);

@@ -1,0 +1,185 @@
+<UserControl x:Class="OpenIPC.Views.SetupTabView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:OpenIPC.ViewModels"
+             xmlns:assets="clr-namespace:OpenIPC.Assets"
+             mc:Ignorable="d"
+             x:DataType="vm:SetupTabViewModel">
+            
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Styles.axaml" />
+    </UserControl.Styles>
+
+    
+    <!-- Main Content -->
+    
+    <!-- <Border BorderThickness="1"  BorderBrush="blue"> -->
+    <Grid Margin="3">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            
+        </Grid.RowDefinitions>
+
+        <!-- Left Column: Buttons -->
+        <StackPanel Orientation="Vertical" Grid.Column="0" Spacing="0">
+            
+            <!-- <Border BorderThickness="1" BorderBrush="Blue"> -->
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" /> <!--1 -->
+                    <RowDefinition Height="Auto" /> <!--2 -->
+                    <RowDefinition Height="Auto" /> <!--3 -->
+                    <RowDefinition Height="Auto" /> <!--4 -->
+                    <RowDefinition Height="Auto" /> <!--5 -->
+                    <RowDefinition Height="Auto" /> <!--6 -->
+                    <RowDefinition Height="Auto" /> <!--7 -->
+                    <RowDefinition Height="Auto" /> <!--8 -->
+                </Grid.RowDefinitions>
+                
+                
+                
+                <Button Grid.Column="0" Grid.Row="0" Content="Script Files Backup" Width="150" Command="{Binding ScriptFilesBackupCommand}" 
+                        IsEnabled="{Binding CanConnect}" 
+                        ToolTip.Tip="{x:Static assets:Resources.ScriptFilesBackupToolTip}"/>
+                
+                <Button Grid.Column="0" Grid.Row="1" Content="Sensor Bin Backup" Width="150" Command="{Binding SensorFilesBackupCommand}" IsEnabled="{Binding CanConnect}" 
+                        ToolTip.Tip="{x:Static assets:Resources.SensorBinBackupToolTip}"/>  
+                
+                
+                
+                <!-- <Button Grid.Column="0" Grid.Row="4" Content="Firmware Update" Width="150" Command="{Binding FirmwareUpdateCommand}" IsEnabled="{Binding CanConnect}" /> -->
+                <Button Grid.Column="0" Grid.Row="4" Content="Send drone.key" Width="150" Command="{Binding SendDroneKeyCommand}"  IsEnabled="{Binding CanConnect}" 
+                        ToolTip.Tip="{x:Static assets:Resources.SendDroneKeyToolTip}"/>
+                
+
+                <Button Grid.Column="1" Grid.Row="0" Content="Script Files Restore"  Width="160" Command="{Binding ScriptFilesRestoreCommand}" IsEnabled="{Binding CanConnect}" 
+                        ToolTip.Tip="{x:Static assets:Resources.ScriptFilesRestoreToolTip}"/>
+                
+                <Button Grid.Column="1" Grid.Row="1" Content="Sensor Driver Backup"  Width="160" Command="{Binding ScriptFilesBackupCommand}" IsEnabled="{Binding CanConnect}" 
+                        ToolTip.Tip="{x:Static assets:Resources.SensorDriverBackupToolTip}"/>
+                
+                <Button Grid.Column="1" Grid.Row="4" Content="Rec'v drone.key" Width="160" Command="{Binding RecvDroneKeyCommand}"  IsEnabled="{Binding CanConnect}" 
+                        ToolTip.Tip="{x:Static assets:Resources.RecvDroneKeyToolTip}"/>
+                
+            </Grid>
+            <!-- </Border> -->
+                
+            <!-- <Border BorderThickness="1" BorderBrush="Red" > -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <!-- Select firmware version -->
+                <Label Grid.Column="0" Grid.Row="0" Content="Firmware Version:"/>
+                <ComboBox Grid.Column="1" Grid.Row="0" PlaceholderText="Select Firmware Version" ItemsSource="{Binding FirmwareVersions}"
+                          SelectedItem="{Binding SelectedFwVersion, Mode=TwoWay}"
+                          ToolTip.Tip="Select Firmware Version"
+                          IsEnabled="{Binding CanConnect}" />
+                
+                <!-- Select Sensor Dropdown -->
+                <Label Grid.Column="0" Grid.Row="1" Content="Select Sensor:"/>
+                <ComboBox Grid.Column="1" Grid.Row="1" x:Name="sensorComboBox" PlaceholderText="Select Sensor"
+                          ItemsSource="{Binding LocalSensors}"
+                          SelectedItem="{Binding SelectedSensor, Mode=TwoWay}" 
+                          IsEnabled="{Binding CanConnect}" />
+
+                <Label Grid.Column="0" Grid.Row="2" Content="Select Driver:" />
+                <TextBox Grid.Column="1" Grid.Row="2" IsEnabled="False">sensor_imx415_mipi.ko</TextBox>
+                
+                <Button Grid.Column="2" Grid.Row="2" Content="Sensor Driver Update"  Width="160" Command="{Binding SensorDriverUpdateCommand}" 
+                        IsEnabled="{Binding CanConnect}"
+                        ToolTip.Tip="{x:Static assets:Resources.SensorDriverUpdateToolTip}"/>
+
+                
+                <Button Grid.Column="2" Grid.Row="1" Content="Sensor Bin Update" Width="150" Command="{Binding SensorFilesUpdateCommand}" 
+                        IsEnabled="{Binding CanConnect}"
+                        ToolTip.Tip="{x:Static assets:Resources.SensorBinUpdateToolTip}"/>
+
+                
+                <Button Grid.Column="2" Grid.Row="0" Content="Update Camera" Width="150" Command="{Binding OfflineUpdateCommand}"  
+                        IsEnabled="{Binding CanConnect}" />
+                <Button Grid.Column="3" Grid.Row="0" Content="Reset Camera" Width="150" Command="{Binding ResetCameraCommand}"  IsEnabled="{Binding CanConnect}"
+                        ToolTip.Tip="{x:Static assets:Resources.ResetCameraToolTip}"/>
+
+                
+                <!-- Progress Bar -->
+                <ProgressBar Grid.Column="1" Height="30" Grid.Row="4" Minimum="0" Maximum="100" 
+                             Value="{Binding DownloadProgress}" 
+                             IsVisible="{Binding IsProgressBarVisible}" />
+                
+                <TextBlock Grid.Column="2" Grid.Row="4" Background="LightGray" Text="{Binding ProgressText}"
+                           FontSize="16" Grid.ColumnSpan="4" LineHeight="28"/>
+                <!-- <TextBlock Grid.Column="2" Grid.Row="4" Background="Aquamarine" Text="Hello"  -->
+                <!--            FontFamily="Consolas" FontSize="16" Grid.ColumnSpan="2" LineHeight="28"/> -->
+                <!-- placeholders -->
+                <Label Grid.Column="0" Grid.Row="6" Content="" />
+                
+            </Grid>
+                <!-- </Border> -->
+            
+        </StackPanel>
+
+        <!-- Right Column: IP Address and additional options -->
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" Spacing="10" Margin="10,0,0,0">
+            
+            <TextBlock Text="{Binding ScanIPDescription}" />
+
+            <!-- IP Address input with SCAN button -->
+            <StackPanel Orientation="Horizontal" Spacing="5">
+                <TextBox Width="150" Text="{Binding ScanIPLabel}" />
+                <Button Content="SCAN" Width="60" 
+                        Command="{Binding ScanCommand}"
+                        ToolTip.Tip="{x:Static assets:Resources.ScanIpToolTip}"/>
+                <TextBox BorderThickness="0" Text="{Binding ScanMessages}" />
+                
+            </StackPanel>
+            
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Background="LightSlateGray">
+                <TextBox AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                         Height="125" 
+                         Text="{Binding ScanIPResultTextBox}" />
+            </ScrollViewer>
+            
+
+
+            <!-- Version Selection -->
+            <!-- <TextBlock Text="Version:" /> -->
+            <!-- <ComboBox Width="250" PlaceholderText="Select OpenIPC Version" /> -->
+
+        </StackPanel>
+        <!-- Steps Text -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" >
+            <TextBlock Text="{x:Static assets:Resources.StepsTextBox}" Margin="0,5,0,0" FontSize="12"/>
+            
+        </StackPanel>
+    </Grid>
+    <!-- </Border> -->
+        
+</UserControl>

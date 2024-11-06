@@ -27,7 +27,8 @@ public class LogViewerViewModel : ObservableObject
         string formattedMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {message}";
         
         //Log.Debug("Serilog: " + message);
-        LogMessages.Insert(0,formattedMessage);
+        if(!message.Contains("Ping"))
+            LogMessages.Insert(0,formattedMessage);
     }
 
     private string _messageText;
@@ -40,8 +41,12 @@ public class LogViewerViewModel : ObservableObject
     private void AppMessageReceived(AppMessage message)
     {
         string formattedMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {message}";
+
+        if(message.UpdateLogView)
+        {
+            LogMessages.Insert(0,formattedMessage);
+        }
         
-        Log.Debug("Serilog: " + message);
-        LogMessages.Insert(0,formattedMessage);
+            
     }
 }

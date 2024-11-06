@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:OpenIPC.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
              x:Class="OpenIPC.Views.LogViewer"
              x:DataType="vm:LogViewerViewModel">
     
@@ -21,10 +21,23 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
-        <ListBox Grid.Row="0" BorderBrush="Black" BorderThickness="1" ItemsSource="{Binding LogMessages}" Height="400">
+        <!-- <ListBox Grid.Row="0" BorderBrush="Black" BorderThickness="1" ItemsSource="{Binding LogMessages}" Height="400"> -->
+        <!--     <ListBox.ItemTemplate> -->
+        <!--         <DataTemplate> -->
+        <!--             <TextBlock Text="{Binding}" TextWrapping="Wrap" /> -->
+        <!--         </DataTemplate> -->
+        <!--     </ListBox.ItemTemplate> -->
+        <!-- </ListBox> -->
+        <ListBox Grid.Row="0" BorderBrush="Black" BorderThickness="1" 
+                 ItemsSource="{Binding LogMessages}" 
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Stretch"
+                 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                    <!-- <TextBlock TextWrapping="Wrap" Text="ksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlkaksasjdjhaljdfhljksdhkjasdhkhdkadjnlakjsdlka" /> -->
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

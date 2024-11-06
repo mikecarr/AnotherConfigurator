@@ -2,8 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="OpenIPC.Views.StatusBarView">
+             xmlns:vm="clr-namespace:OpenIPC.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+             x:Class="OpenIPC.Views.StatusBarView"
+             x:DataType="vm:StatusBarViewModel">
 
     <Border BorderBrush="Beige" BorderThickness="1">
 
@@ -17,23 +19,34 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="0">
-                <Label Grid.Row="0" Grid.Column="0" Content="Status:" />
+            <Border BorderBrush="Gray" BorderThickness="0" Grid.Row="0" Grid.Column="0">
+                <Label FontWeight="Bold" Content="Hostname:" />
             </Border>
 
-            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="1">
-                <TextBlock Grid.Row="0" Grid.Column="1" Width="100"></TextBlock>
+            <Border BorderBrush="Gray"  BorderThickness="0" Grid.Row="0" Grid.Column="1">
+                <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Stretch" Text="{Binding HostNameText}" />
             </Border>
 
-            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="2">
-                <Label Grid.Row="0" Grid.Column="2" Content="Message:" />
+            
+            <Border BorderBrush="Gray" BorderThickness="0" Grid.Row="0" Grid.Column="2">
+                <Label FontWeight="Bold" Content="Status:" />
             </Border>
 
-            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Grid.Column="3">
-                <TextBlock Grid.Row="0" Grid.Column="3"></TextBlock>
+            <Border BorderBrush="Gray" BorderThickness="0" Grid.Row="0" Grid.Column="3">
+                <TextBlock  VerticalAlignment="Center" Width="100" Text="{Binding StatusText}" />
+            </Border>
+
+            <Border BorderBrush="Gray" BorderThickness="0" Grid.Row="0" Grid.Column="4">
+                <Label FontWeight="Bold" Content="Last Message:" />
+            </Border>
+
+            <Border BorderBrush="Gray" BorderThickness="0" Grid.Row="0" Grid.Column="5">
+                <TextBlock Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" Text="{Binding MessagesText}" />
             </Border>
         </Grid>
 
