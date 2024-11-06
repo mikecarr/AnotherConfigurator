@@ -4,10 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:OpenIPC.Views"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="650"
+        MaxWidth="920"
+        MaxHeight="750"
         x:Class="OpenIPC.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="OpenIPC">
-        
-        <views:MainView />
+                
+                            
+    <views:MainView />
 </Window>

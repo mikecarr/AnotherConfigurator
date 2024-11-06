@@ -1,0 +1,90 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:OpenIPC.ViewModels"
+             xmlns:local="clr-namespace:OpenIPC.Services"
+             xmlns:assets="clr-namespace:OpenIPC.Assets"
+             mc:Ignorable="d"
+             x:Class="OpenIPC.Views.CameraSettingsView"
+             x:DataType="vm:CameraSettingsTabViewModel">
+
+
+    <!-- Add styles and resources for this window -->
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/Styles.axaml" />
+    </UserControl.Styles>
+
+
+    <StackPanel Orientation="Vertical" Spacing="5" Margin="10">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Width="250" Content="Resolution"  ToolTip.Tip="{DynamicResource SelectResolutionToolTip}"/>
+
+               
+            
+            <Label Grid.Row="1" Grid.Column="0" Width="250" Content="FPS" ToolTip.Tip="Select FPS" />
+            <Label Grid.Row="2" Grid.Column="0" Width="250" Content="Codec" ToolTip.Tip="Select Codec" />
+            <Label Grid.Row="3" Grid.Column="0" Width="250" Content="Bitrate" ToolTip.Tip="Select Bitrate" />
+            <Label Grid.Row="4" Grid.Column="0" Width="250" Content="Exposure" ToolTip.Tip="Select Exposure" />
+            <Label Grid.Row="5" Grid.Column="0" Width="250" Content="Contrast" ToolTip.Tip="Select Contrast" />
+            <Label Grid.Row="6" Grid.Column="0" Width="250" Content="Hue" ToolTip.Tip="Select Hue" />
+            <Label Grid.Row="7" Grid.Column="0" Width="250" Content="Saturation" ToolTip.Tip="Select Saturation" />
+            <Label Grid.Row="8" Grid.Column="0" Width="250" Content="Luminance" ToolTip.Tip="Select Luminance" />
+            <Label Grid.Row="9" Grid.Column="0" Width="250" Content="Flip" ToolTip.Tip="Select Flip" />
+            <Label Grid.Row="10" Grid.Column="0" Width="250" Content="Mirror" ToolTip.Tip="Select Mirror" />
+
+            <ComboBox Grid.Row="0" Grid.Column="1" Width="250" 
+                      ItemsSource="{Binding Resolution}" 
+                      SelectedItem="{Binding SelectedResolution, Mode=TwoWay}" />
+            
+            <ComboBox Grid.Row="1" Grid.Column="1" Width="250" ItemsSource="{Binding FPS}" 
+                      SelectedItem="{Binding SelectedFps, Mode=TwoWay}" />
+            <ComboBox Grid.Row="2" Grid.Column="1" Width="250" ItemsSource="{Binding Codec}" 
+                      SelectedItem="{Binding SelectedCodec, Mode=TwoWay}" />
+            <ComboBox Grid.Row="3" Grid.Column="1" Width="250" ItemsSource="{Binding Bitrate}" 
+                      SelectedItem="{Binding SelectedBitrate, Mode=TwoWay}" />
+            <ComboBox Grid.Row="4" Grid.Column="1" Width="250" ItemsSource="{Binding Exposure}" 
+                      SelectedItem="{Binding SelectedExposure, Mode=TwoWay}" />
+            <ComboBox Grid.Row="5" Grid.Column="1" Width="250" ItemsSource="{Binding Contrast}" 
+                      SelectedItem="{Binding SelectedContrast, Mode=TwoWay}" />
+            <ComboBox Grid.Row="6" Grid.Column="1" Width="250" ItemsSource="{Binding Hue}" 
+                      SelectedItem="{Binding SelectedHue, Mode=TwoWay}" />
+            <ComboBox Grid.Row="7" Grid.Column="1" Width="250" ItemsSource="{Binding Saturation}" 
+                      SelectedItem="{Binding SelectedSaturation, Mode=TwoWay}" />
+            <ComboBox Grid.Row="8" Grid.Column="1" Width="250" ItemsSource="{Binding Luminance}" 
+                      SelectedItem="{Binding SelectedLuminance, Mode=TwoWay}" />
+            <ComboBox Grid.Row="9" Grid.Column="1" Width="250" ItemsSource="{Binding Flip}" 
+                      SelectedItem="{Binding SelectedFlip, Mode=TwoWay}" />
+            <ComboBox Grid.Row="10" Grid.Column="1" Width="250" ItemsSource="{Binding Mirror}" 
+                      SelectedItem="{Binding SelectedMirror, Mode=TwoWay}"/>
+        </Grid>
+        <!-- Restart Majestic Button -->
+        <Button Content="Restart Majestic" HorizontalAlignment="Left" Margin="10" 
+                Command="{Binding RestartMajesticCommand}" IsEnabled="{Binding CanConnect}"
+                ToolTip.Tip="{x:Static assets:Resources.RestartMajesticToolTip}"/>
+
+        <!-- Warning Label -->
+        <TextBlock Text="Be careful what you enter here" HorizontalAlignment="Right" FontSize="12" />
+
+    </StackPanel>
+</UserControl>

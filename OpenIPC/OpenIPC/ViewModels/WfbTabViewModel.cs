@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using MsBox.Avalonia;
+using OpenIPC.Messages;
 using OpenIPC.Events;
 using OpenIPC.Models;
+using OpenIPC.Services;
 using Prism.Events;
 using ReactiveUI;
 using Serilog;
@@ -14,6 +18,10 @@ namespace OpenIPC.ViewModels;
 public class WfbTabViewModel : ReactiveObject
 {
     private readonly IEventAggregator _eventAggregator;
+    
+    private readonly ISshClientService? _sshClientService;
+    
+    
     public ObservableCollection<string> Frequencies58GHz { get; set; }
     public ObservableCollection<string> Frequencies24GHz { get; set; }
 
@@ -26,6 +34,8 @@ public class WfbTabViewModel : ReactiveObject
     public ObservableCollection<int> FecN { get; set; }
     public ICommand RestartWfbCommand { get; private set; }
 
+    
+    
     private readonly Dictionary<int, string> _58frequencyMapping = new()
     {
         { 36, "5180 MHz [36]" },
@@ -196,7 +206,7 @@ public class WfbTabViewModel : ReactiveObject
         {
             this.RaiseAndSetIfChanged(ref _wfbConfContent, value);
             //CanConnect = true;
-            ParseWfbConfContent();
+            //ParseWfbConfContent();
         }
     }
     
@@ -204,29 +214,79 @@ public class WfbTabViewModel : ReactiveObject
     {
         InitializeCollections();
         
+        _sshClientService = new SshClientService(_eventAggregator);
         RestartWfbCommand = new RelayCommand(() => RestartWfb());
         
         _eventAggregator = App.EventAggregator;
         
         _eventAggregator.GetEvent<TabMessageEvent>().Subscribe(MessageReceived);
-        _eventAggregator.GetEvent<AppMessageEvent>().Subscribe(AppMessageReceived);
+        _eventAggregator.GetEvent<WfbConfContentUpdatedEvent>().Subscribe(WfbConfContentUpdated);
     }
 
     
     
-    private void AppMessageReceived(AppMessage obj)
+    
+    private void WfbConfContentUpdated(WfbConfContentUpdatedMessage obj)
     {
-        Log.Debug($"******* Tab1ViewModel : AppMessageReceived: {obj}");
+        WfbConfContent = obj.Content;
+        ParseWfbConfContent();
     }
 
-    private void RestartWfb()
+    // Method that will save settings and then restart device
+    private async void RestartWfb()
     {
-        _eventAggregator.GetEvent<TabMessageEvent>().Publish("Button Pushed");
+        _eventAggregator.GetEvent<TabMessageEvent>().Publish("Restart Pushed");
+        _eventAggregator.GetEvent<AppMessageEvent>().Publish(new AppMessage
+            { Message = "Getting new content", DeviceConfig = DeviceConfig.Instance });
+
+        var newFrequency58 = SelectedFrequency58String;
+        var newFrequency24 = SelectedFrequency24String;
+
+        var newPower58 = SelectedPower;
+        var newPower24 = SelectedPower24GHz;
+        var newMcsIndex = SelectedMcsIndex;
+        var newStbc = SelectedStbc;
+        var newLdpc = SelectedLdpc;
+        var newFecK = SelectedFecK;
+        var newFecN = SelectedFecN;
+        var newChannel = SelectedChannel;
+
+        // Update WfbConfContent with the new values
+        var updatedWfbConfContent = UpdateWfbConfContent(
+            WfbConfContent,
+            newFrequency58,
+            newFrequency24,
+            newPower58,
+            newPower24,
+            newMcsIndex,
+            newStbc,
+            newLdpc,
+            newFecK,
+            newFecN,
+            newChannel
+        );
+
+        WfbConfContent = updatedWfbConfContent;
+
+        // make sure we are not uploading an empty string/file
+        if (string.IsNullOrEmpty(updatedWfbConfContent))
+        {
+            await MessageBoxManager.GetMessageBoxStandard("Error", "WfbConfContent is empty").ShowAsync();
+        }
+
+        _eventAggregator.GetEvent<AppMessageEvent>().Publish(new AppMessage { Message = $"Uploading new {Models.OpenIPC.WfbConfFileLoc}", DeviceConfig = DeviceConfig.Instance, UpdateLogView = true});
+        
+        Log.Information($"Uploading new : {Models.OpenIPC.WfbConfFileLoc}");
+        _sshClientService.UploadFileStringAsync(DeviceConfig.Instance, Models.OpenIPC.WfbConfFileLoc, WfbConfContent);
+
+        _eventAggregator.GetEvent<AppMessageEvent>().Publish(new AppMessage { Message = "Restarting Wfb", DeviceConfig = DeviceConfig.Instance, UpdateLogView = true});
+        Log.Information("Restarting Wfb");
+        _sshClientService.ExecuteCommandAsync(DeviceConfig.Instance, DeviceCommands.WfbRestartCommand);
     }
 
     private void MessageReceived(string obj)
     {
-        Log.Debug($"******* Tab1ViewModel : MessageReceived: {obj}");
+        //Log.Debug($"******* {this.GetType().Name} : MessageReceived: {obj}");
     }
 
     private void InitializeCollections()
@@ -398,5 +458,56 @@ public class WfbTabViewModel : ReactiveObject
                 Log.Debug($"WFB - Key: {key}, Value: {value}");
             }
         }
+    }
+    
+    private string UpdateWfbConfContent(
+        string wfbConfContent,
+        string newFrequency58,
+        string newFrequency24,
+        int newPower58,
+        int newPower24,
+        int newMcsIndex,
+        int newStbc,
+        int newLdpc,
+        int newFecK,
+        int newFecN,
+        int newChannel
+    )
+    {
+        // Logic to update WfbConfContent with the new values
+        var lines = wfbConfContent.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+        var regex = new Regex(
+            @"(frequency|channel|driver_txpower_override|frequency24|txpower|mcsindex|stbc|ldpc|feck|fecN)=.*");
+        var updatedContent = regex.Replace(wfbConfContent, match =>
+        {
+            switch (match.Groups[1].Value)
+            {
+                case "frequency":
+                // TODO: what should we do here?
+                //return $"frequency={newFrequency58}";
+                case "channel":
+                    return $"channel={newChannel}";
+                case "frequency24":
+                // TODO: what should we do here?
+                //return $"frequency24={newFrequency24}";
+                case "driver_txpower_override":
+                    return $"driver_txpower_override={newPower58}";
+                case "txpower":
+                    return $"txpower={newPower24}";
+                case "mcsindex":
+                    return $"mcsindex={newMcsIndex}";
+                case "stbc":
+                    return $"stbc={newStbc}";
+                case "ldpc":
+                    return $"ldpc={newLdpc}";
+                case "feck":
+                    return $"feck={newFecK}";
+                case "fecN":
+                    return $"fecN={newFecN}";
+                default:
+                    return match.Value;
+            }
+        });
+        return updatedContent;
     }
 }

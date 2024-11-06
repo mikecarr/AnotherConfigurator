@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:OpenIPC.ViewModels"
              xmlns:views="clr-namespace:OpenIPC.Views"
-             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="550"
              x:Class="OpenIPC.Views.MainView"
              x:DataType="vm:MainViewModel">
 
@@ -19,56 +19,65 @@
     </Design.DataContext>
 
 
-    <!-- <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/> -->
-
-    <Grid>
-        <Grid.RowDefinitions>
-
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+        <Grid>
+            <Grid.RowDefinitions>
+    
+                <!-- Tab Control -->
+                <RowDefinition Height="Auto" />
+    
+                <!-- Connection Controls -->
+                <RowDefinition Height="Auto" />
+    
+                <!-- footer -->
+                <RowDefinition Height="*" />
+    
+            </Grid.RowDefinitions>
+    
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+    
+    
             <!-- Tab Control -->
-            <RowDefinition Height="*" />
-
-            <!-- Connection Controls -->
-            <RowDefinition Height="Auto" />
-
-            <!-- footer -->
-            <RowDefinition Height="Auto" />
-
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-
-        <!-- Tab Control -->
-        <Border Margin="5" Grid.Row="0" BorderBrush="Blue" BorderThickness="1">
-            <TabControl Grid.Column="0" Grid.Row="0" >
+    
+            <TabControl Grid.Column="0" Grid.Row="0" Margin="2">
                 <TabItem Header="WFB">
-                    <!-- <TextBlock Text="Content for Tab 1"/> -->
                     <views:WfbTabView />
                 </TabItem>
-                <TabItem Header="Tab 2">
-                    <TextBlock Text="Content for Tab 2" />
+                <TabItem Header="Telemetry">
+                    <views:TelemetryTabView />
                 </TabItem>
-
+                
+                <TabItem Header="Camera">
+                    <views:CameraSettingsView />
+                </TabItem>
+                
+                <TabItem Header="Setup">
+                    <views:SetupTabView />
+                </TabItem>
+                
                 <TabItem Header="LogViewer">
                     <views:LogViewer />
                 </TabItem>
             </TabControl>
-        </Border>
-
-        <!-- Connect Controls -->
-        <Border Grid.Row="1" Margin="5" BorderBrush="Blue" BorderThickness="1">
+    
+    
+            <!-- Connect Controls -->
+            <!-- <Border Grid.Row="1" Margin="5" BorderBrush="Blue" BorderThickness="1"> -->
             <Panel Grid.Row="1">
                 <views:ConnectControlsView />
             </Panel>
-        </Border>
-        
-        <Border Grid.Row="2" Margin="5" BorderBrush="Blue" BorderThickness="1">
-            <Panel Grid.Row="1">
+            <!-- </Border> -->
+    
+            <!-- <Border Grid.Row="2" Margin="5" BorderBrush="Blue" BorderThickness="1"> -->
+            <Panel Grid.Row="2" VerticalAlignment="Bottom">
                 <views:StatusBarView />
             </Panel>
-        </Border>
-    </Grid>
+            <!-- </Border> -->
+        </Grid>
+    
+    </ScrollViewer>
+
 </UserControl>

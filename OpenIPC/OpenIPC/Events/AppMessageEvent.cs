@@ -11,23 +11,52 @@ public class AppMessageEvent : PubSubEvent<AppMessage>
 
 public class AppMessage
 {
-    public string Message { get; set; }
+    private bool updateLogView = false;
+    public bool UpdateLogView
+    {
+        get { return updateLogView; }
+        set
+        {
+            updateLogView = value;
+        }
+    }
     
-    public DeviceConfig DeviceConfig { get; set; }
-    public WfbConfContentUpdatedMessage WfbConfContentUpdatedMessage { get; set; }
+    private string _message = string.Empty;
+    public string Message { 
+        get { return _message; }
+        set
+        {
+            _message = value;
+        }
+    }
 
+    private string _status = string.Empty;
+
+    public string? Status
+    {
+        get { return _status; } 
+        set{
+            _status = value;
+            
+        }
+    }
+
+    private DeviceConfig _deviceConfig = DeviceConfig.Instance;
+    public DeviceConfig DeviceConfig
+    {
+        get { return _deviceConfig; }
+        set
+        {
+            _deviceConfig = value;
+        }
+    }
+    
+    
     public override string ToString()
     {
-        return $"{nameof(Message)}: {Message}, {nameof(DeviceConfig)}: {DeviceConfig}";
+        return
+            $"{nameof(Message)}: {Message}, {nameof(Status)}: {Status}, " +
+            $"{nameof(DeviceConfig)}: {DeviceConfig}";
     }
 }
 
-public class WfbConfContentUpdatedMessage
-{
-    public string Content { get; set; }
-
-    public WfbConfContentUpdatedMessage(string content)
-    {
-        Content = content;
-    }
-}

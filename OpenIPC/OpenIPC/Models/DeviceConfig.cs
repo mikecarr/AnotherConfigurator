@@ -7,6 +7,9 @@ public class DeviceConfig
         Username = "root";
     }
     
+    private static DeviceConfig _instance;
+    public static DeviceConfig Instance => _instance ??= new DeviceConfig();
+    
     public string Username { get; set; }
     public string Password { get; set; }
     public string IpAddress { get; set; }  
@@ -20,10 +23,3 @@ public class DeviceConfig
     
 }
 
-public enum DeviceType
-{
-    None,
-    Camera,
-    Radxa,
-    NVR
-}
