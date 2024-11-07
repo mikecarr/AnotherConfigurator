@@ -40,7 +40,7 @@ public partial class App : Application
         string configDirectory;
 
         string appName = Assembly.GetExecutingAssembly().GetName().Name;
-
+        Log.Information($"Application name: {appName}, running on {RuntimeInformation.OSDescription}");
         if (OperatingSystem.IsAndroid())
         {
             // Android-specific path
@@ -48,6 +48,14 @@ public partial class App : Application
                 appName);
             configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 appName, "appsettings.json");
+        }
+        else if (OperatingSystem.IsIOS())
+        {
+            
+            configDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                appName);
+            configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), appName,
+                "appsettings.json");
         }
         else if (OperatingSystem.IsWindows())
         {

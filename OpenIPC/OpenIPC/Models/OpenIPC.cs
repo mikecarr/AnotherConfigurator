@@ -81,6 +81,13 @@ public class OpenIPC
             AppDataConfigPath = Path.Combine(AppDataConfigDirectory, "appsettings.json");
             DeviceSettingsConfigPath = Path.Combine(AppDataConfigDirectory, "openipc_config.json");
         }
+        else if (OperatingSystem.IsIOS())
+        {
+            AppDataConfigDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                appName);
+            AppDataConfigPath = Path.Combine(AppDataConfigDirectory, "appsettings.json");
+            DeviceSettingsConfigPath = Path.Combine(AppDataConfigDirectory, "openipc_config.json");
+        }
         else if (OperatingSystem.IsWindows())
         {
             AppDataConfigDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName);

@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>OpenIPC</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.openipc.OpenIPC</string>
+	<string>org.openpilot.OpenIPC-Config</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>

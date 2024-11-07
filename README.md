@@ -58,3 +58,10 @@ For example:
 
   ```bash
   dotnet publish -c Release -r osx-arm64 --self-contained
+
+
+
+
+
+IOS:
+https://docs.avaloniaui.net/docs/guides/platforms/ios/build-and-run-your-application-on-your-iphone-or-ipad

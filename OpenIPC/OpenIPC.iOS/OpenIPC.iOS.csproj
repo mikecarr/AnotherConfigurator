@@ -4,6 +4,8 @@
         <TargetFramework>net8.0-ios</TargetFramework>
         <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
         <Nullable>enable</Nullable>
+        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+        <CodesignKey>Apple Development: mcarr67@gmail.com (RQJNSR5SM5)</CodesignKey>
     </PropertyGroup>
 
     <ItemGroup>
