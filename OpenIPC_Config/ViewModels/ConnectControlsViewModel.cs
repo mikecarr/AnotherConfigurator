@@ -13,6 +13,7 @@ using Avalonia.Media;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Enums;
 using OpenIPC_Config.Events;
@@ -239,8 +240,8 @@ public partial class ConnectControlsViewModel : ViewModelBase
             return;
         }
 
-        if ((_deviceConfig.Hostname.Contains("radxa") && _deviceConfig.DeviceType != DeviceType.Radxa) ||
-            (_deviceConfig.Hostname.Contains("openipc") && _deviceConfig.DeviceType != DeviceType.Camera))
+        var validator = App.ServiceProvider.GetRequiredService<DeviceConfigValidator>();
+        if (!validator.IsDeviceConfigValid(_deviceConfig))
         {
             UpdateUIMessage("Hostname Error!");
             var msBox = MessageBoxManager.GetMessageBoxStandard("Hostname Error!",
@@ -254,6 +255,22 @@ public partial class ConnectControlsViewModel : ViewModelBase
                 return;
             }
         }
+        
+        // if ((_deviceConfig.Hostname.Contains("radxa") && _deviceConfig.DeviceType != DeviceType.Radxa) ||
+        //     (_deviceConfig.Hostname.Contains("openipc") && _deviceConfig.DeviceType != DeviceType.Camera))
+        // {
+        //     UpdateUIMessage("Hostname Error!");
+        //     var msBox = MessageBoxManager.GetMessageBoxStandard("Hostname Error!",
+        //         $"Hostname does not match device type! \nHostname: {_deviceConfig.Hostname} Device Type: {_selectedDeviceType}.\nPlease check device..\nOk to continue anyway\nCancel to quit",
+        //         ButtonEnum.OkCancel);
+        //
+        //     var result = await msBox.ShowAsync();
+        //     if (result == ButtonResult.Cancel)
+        //     {
+        //         Log.Debug("Device selection and hostname mismatch, stopping");
+        //         return;
+        //     }
+        // }
 
         // Save the config to app settings
         SaveConfig();
